@@ -1,5 +1,6 @@
+
+
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 part 'counter_event.dart';
 part 'counter_state.dart';
@@ -14,7 +15,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     /// and The funcinality are preformed hear
     on<CounterIncrementEvent>((event, emit) {
       /// emit the State (emit notifys the Buiders)
-      emit(CounterIncrementState(state.counter + 1));
+      emit(CounterIncrementState(
+          incresedCounter: state.counter + 1,
+          textString: event.incrementEventValue));
     });
 
     on<CounterDecrementEvent>((event, emit) => decrementFunction(event, emit));
@@ -22,6 +25,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
   void decrementFunction(
       CounterDecrementEvent event, Emitter<CounterState> emit) {
-    emit(CounterDecrementState(state.counter - 1));
+    emit(CounterDecrementState(
+      decrementCounter: state.counter - 1,
+    ));
   }
 }
