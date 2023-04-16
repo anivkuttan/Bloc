@@ -16,6 +16,8 @@ class ThemeCubitInitial extends ThemeCubitState {
 }
 
 class CounterIncrementCubit extends ThemeCubitState {
+  /// getting incremental value and current thame
+  /// and pass through the super class
   final int incrementValue;
   final ThemeData currentTheme;
   const CounterIncrementCubit(

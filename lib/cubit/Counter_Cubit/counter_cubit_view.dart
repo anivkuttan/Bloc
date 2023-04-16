@@ -20,12 +20,39 @@ class _CounterCubitViewState extends State<CounterCubitView> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocBuilder<ThemeCubit, ThemeCubitState>(
+          /// Bloc builder and Bloc Listener
+          /*  BlocListener<ThemeCubit, ThemeCubitState>(
+            listener: (context, state) {
+              SnackBar snack = SnackBar(
+                content: Text("Conter Value Changed  ${state.counterValue}"),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snack);
+            },
+            child: BlocBuilder<ThemeCubit, ThemeCubitState>(
+              builder: (context, state) {
+                return Text(
+                  "${state.counterValue}",
+                  style: const TextStyle(fontSize: 29),
+                );
+              },
+            ),
+          ), */
+
+          /// Bloc builder and Bloc Listener toGether BlocConsumer
+          BlocConsumer<ThemeCubit, ThemeCubitState>(
             builder: (context, state) {
               return Text(
                 "${state.counterValue}",
                 style: const TextStyle(fontSize: 29),
               );
+            },
+            listener: (context, state) {
+              SnackBar snack = SnackBar(
+                content: Text("Conter Value Changed  ${state.counterValue}"),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snack);
             },
           ),
           const SizedBox(
