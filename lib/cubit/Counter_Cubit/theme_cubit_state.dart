@@ -4,15 +4,25 @@ part of 'theme_cubit_cubit.dart';
 abstract class ThemeCubitState {
   final ThemeData theme;
   final int counterValue;
-  const ThemeCubitState({required this.counterValue, required this.theme});
+  final String themeText;
+  const ThemeCubitState(
+      {required this.counterValue,
+      required this.theme,
+      required this.themeText});
 }
 
 class ThemeCubitInitial extends ThemeCubitState {
   final int initialValue;
   final ThemeData initialTheme;
+  final String currentThemeText;
   const ThemeCubitInitial(
-      {required this.initialTheme, required this.initialValue})
-      : super(counterValue: initialValue, theme: initialTheme);
+      {required this.currentThemeText,
+      required this.initialTheme,
+      required this.initialValue})
+      : super(
+            counterValue: initialValue,
+            theme: initialTheme,
+            themeText: currentThemeText);
 }
 
 class CounterIncrementCubit extends ThemeCubitState {
@@ -20,15 +30,27 @@ class CounterIncrementCubit extends ThemeCubitState {
   /// and pass through the super class
   final int incrementValue;
   final ThemeData currentTheme;
+  final String currentThemeText;
   const CounterIncrementCubit(
-      {required this.incrementValue, required this.currentTheme})
-      : super(counterValue: incrementValue, theme: currentTheme);
+      {required this.incrementValue,
+      required this.currentThemeText,
+      required this.currentTheme})
+      : super(
+            counterValue: incrementValue,
+            theme: currentTheme,
+            themeText: currentThemeText);
 }
 
 class CounterDecrementCubit extends ThemeCubitState {
   final int decrementValue;
   final ThemeData currentTheme;
+  final String currentThemeText;
   const CounterDecrementCubit(
-      {required this.decrementValue, required this.currentTheme})
-      : super(counterValue: decrementValue, theme: currentTheme);
+      {required this.decrementValue,
+      required this.currentThemeText,
+      required this.currentTheme})
+      : super(
+            counterValue: decrementValue,
+            theme: currentTheme,
+            themeText: currentThemeText);
 }

@@ -47,9 +47,15 @@ class _CounterCubitViewState extends State<CounterCubitView> {
                 style: const TextStyle(fontSize: 29),
               );
             },
+            listenWhen: (previous, current) {
+              if (current is ThemeCubitInitial) {
+                return true;
+              }
+              return false;
+            },
             listener: (context, state) {
               SnackBar snack = SnackBar(
-                content: Text("Conter Value Changed  ${state.counterValue}"),
+                content: Text("Theme Changed  ${state.counterValue}"),
               );
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(snack);
@@ -91,11 +97,17 @@ class _CounterCubitViewState extends State<CounterCubitView> {
           SizedBox(
             height: 40,
             width: 150,
-            child: ElevatedButton.icon(
-              label: const Text("Dark"),
-              icon: const Icon(Icons.sunny),
-              onPressed: () {
-                context.read<ThemeCubit>().themeChange();
+            child: BlocBuilder<ThemeCubit, ThemeCubitState>(
+              builder: (context, state) {
+                return ElevatedButton.icon(
+                  label: Text("${state.themeText}"),
+                  icon: Icon(state.themeText == "Dark"
+                      ? Icons.dark_mode_outlined
+                      : Icons.sunny),
+                  onPressed: () {
+                    context.read<ThemeCubit>().themeChange();
+                  },
+                );
               },
             ),
           ),
