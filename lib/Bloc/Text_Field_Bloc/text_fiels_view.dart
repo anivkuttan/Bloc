@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../Models/user.dart';
+
 class TextFieldView extends StatefulWidget {
   const TextFieldView({Key? key}) : super(key: key);
 
@@ -22,9 +24,9 @@ class _TextFieldViewState extends State<TextFieldView> {
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     // Unfocus the keyboard after the screen is loaded
-    //   FocusScope.of(context).unfocus(); 
+    //   FocusScope.of(context).unfocus();
     // });
-    // SystemChannels.textInput.invokeMethod('TextInput.hide');
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   @override
@@ -67,13 +69,23 @@ class _TextFieldViewState extends State<TextFieldView> {
                 },
               ),
               TextFormField(
+                maxLength: 2,
                 controller: ageController,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   hintText: 'age',
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter Age';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: numberController,
+                maxLength: 10,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   hintText: 'Phone Number',
                 ),
@@ -95,6 +107,15 @@ class _TextFieldViewState extends State<TextFieldView> {
                       bool? validation = _key.currentState?.validate();
                       if (validation ?? false) {
                         debugPrint('Validation completed');
+                        User user = User(
+                          name: nameController.text,
+                          age: int.parse(ageController.text),
+                          address: addressController.text,
+                          number: int.parse(numberController.text),
+                        );
+                        context
+                            .read<TextfieldBloc>()
+                            .add(SummitEvent(userDetails: user));
                       } else {
                         debugPrint('Validation Error');
                         return;
@@ -114,26 +135,38 @@ class _TextFieldViewState extends State<TextFieldView> {
                 color: Colors.black26,
                 height: 200,
                 width: double.infinity,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text('Name'),
-                      const Text('Age'),
-                      const Text('Phone'),
-                      const Text('Address'),
-                      BlocBuilder<TextfieldBloc, TextfieldState>(
-                        builder: (context, state) {
-                          if (state is TextfieldTypeingState) {
-                            return Chip(
-                              label: Text(state.name),
-                            );
-                          }
-                          return const Chip(
-                            label: Text('Ani'),
-                          );
-                        },
-                      ),
-                    ]),
+                child: BlocBuilder<TextfieldBloc, TextfieldState>(
+                  builder: (context, state) {
+                    if (state is TextfieldInitial) {
+                      User? user = state.user;
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(user?.name ?? ''),
+                            Text("${user?.age ?? ''}"),
+                            Text("${user?.number ?? ''}"),
+                            Text(user?.address ?? ''),
+                          ]);
+                    } else {
+                      return Column(
+                        children: [
+                          BlocBuilder<TextfieldBloc, TextfieldState>(
+                            builder: (context, state) {
+                              if (state is TextfieldTypeingState) {
+                                return Chip(
+                                  label: Text(state.name),
+                                );
+                              }
+                              return const Chip(
+                                label: Text('Ani'),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
               )
             ],
           ),

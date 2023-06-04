@@ -16,5 +16,8 @@ class TextfieldBloc extends Bloc<TextfieldEvent, TextfieldState> {
         emit(TextfieldTypeingState(name: event.name));
       }
     });
+    on<SummitEvent>((event, emit) {
+      emit(TextfieldInitial(user: event.userDetails));
+    });
   }
 }
