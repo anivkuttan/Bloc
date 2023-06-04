@@ -100,7 +100,7 @@ class _CounterCubitViewState extends State<CounterCubitView> {
             child: BlocBuilder<ThemeCubit, ThemeCubitState>(
               builder: (context, state) {
                 return ElevatedButton.icon(
-                  label: Text("${state.themeText}"),
+                  label: Text(state.themeText),
                   icon: Icon(state.themeText == "Dark"
                       ? Icons.dark_mode_outlined
                       : Icons.sunny),

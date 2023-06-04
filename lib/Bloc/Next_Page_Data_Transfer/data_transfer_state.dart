@@ -1,6 +1,5 @@
 part of 'data_transfer_bloc.dart';
 
-@immutable
 abstract class DataTransferBlocState {
   final dynamic initialData;
 
